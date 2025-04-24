@@ -12,7 +12,7 @@ import AnimatedBackground from "@/components/animated-background"
 import AnimatedSection from "@/components/animated-section"
 import WhatsAppButton from "@/components/whatsapp-button"
 import TeamSlider from "@/components/team-slider"
-import PageLoading from "@/components/page-loading"
+// import PageLoading from "@/components/page-loading"
 import { useLoading } from "@/context/loading-context"
 // import { fetchProjects, fetchServices, fetchTestimonials, fetchSkills, fetchTeamMembers, fetchMetadata } from "@/lib/api"
 
@@ -20,18 +20,17 @@ import { useLoading } from "@/context/loading-context"
 
 import { useEffect, useState } from "react";
 import {
-  fetchProjects,
-  fetchServices,
-  fetchSkills,
-  fetchTestimonials,
-  fetchTeamMembers,
-  fetchMetadata,
+  // fetchProjects,
+  // fetchServices,
+  // fetchSkills,
+  // fetchTestimonials,
+  // fetchTeamMembers,
+  // fetchMetadata,
   fetchHomeData,
   Project,
   Service,
-  Skill,
   Testimonial,
-  GeneralSettings
+  // GeneralSettings
 } from "@/lib/api";
 
 export default function Home() {
@@ -39,8 +38,8 @@ export default function Home() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [teamMembers, setTeamMembers] = useState<any[]>([]);
-  const [meta_data, setMetadata] = useState<GeneralSettings | null>(null);
+  const [teamMembers, setTeamMembers] = useState<[]>([]);
+  // const [generalSettings, setGeneralSettings] = useState<GeneralSettings>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,7 +64,7 @@ export default function Home() {
         setServices(response.services);
         setTestimonials(response.testimonials);
         setTeamMembers(response.members);
-        setMetadata(response.settings);
+        // setGeneralSettings(response.settings);
         // setLoading(false);
       } catch (error) {
         console.error("حدث خطأ أثناء جلب البيانات:", error);
@@ -92,7 +91,7 @@ export default function Home() {
           <AnimatedSection animation="fadeIn">
             <div className="flex flex-col items-center text-center">
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                مرحباً، أنا <AnimatedText text="يعقوب الحيدري" className="text-primary" />
+                مرحباً، أنا <AnimatedText text="{`${generalSettings.site_name}`}" className="text-primary" />
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl">
                 مطور ويب متخصص في بناء تطبيقات الويب الحديثة والمواقع الإلكترونية المتميزة

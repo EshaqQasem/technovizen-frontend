@@ -11,15 +11,17 @@ import AnimatedSection from "@/components/animated-section";
 
 import { useLoading } from "@/context/loading-context";
 import ProjectCard from "@/components/project-card";
+import {useParams} from "next/navigation";
+// import {ParamValue} from "next/dist/server/request/params";
 
-export interface Project {
+ interface Project {
   id: string;
   title: string;
   description: string;
   image: string;
   tags: string[];
 }
-export interface TeamMember {
+ interface TeamMember {
   id: string;
   name: string;
   role: string;
@@ -45,19 +47,26 @@ export interface TeamMember {
 }
 
 // helper fetch — يمكن نقله إلى lib/api.ts إن أحببت
-const fetchTeamMember = async (id: string): Promise<TeamMember> => {
-  const API_URL =
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
-  const res = await fetch(`${API_URL}/team-members/${id}`);
+// const fetchTeamMember = async (id: ParamValue): Promise<TeamMember> => {
+//   const API_URL =
+//       process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+//   const res = await fetch(`${API_URL}/team-members/${id}`);
+//
+//   if (!res.ok) throw new Error("فشل جلب بيانات العضو");
+//
+//   return res.json();
+// };
 
-  if (!res.ok) throw new Error("فشل جلب بيانات العضو");
+// type TeamMemberPageProps = {
+//   params: {
+//     id: string;
+//   };
+// };
 
-  return res.json();
-};
-
-export default function TeamMemberPage({params,}: { params: { id: string };}) {
+export default function TeamMemberPage()  {
+  const params = useParams()
+  const memberId = params?.id;
   const { setLoading } = useLoading();
-
   const [member, setMember] = useState<TeamMember | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -65,17 +74,25 @@ export default function TeamMemberPage({params,}: { params: { id: string };}) {
     const load = async () => {
       setLoading(true);
       try {
-        const data = await fetchTeamMember(params.id);
+        const API_URL =
+            // process.env.NEXT_PUBLIC_API_URL ||
+            "http://localhost:8000/api";
+        const res = await fetch(`${API_URL}/team-members/${memberId}`);
+
+        if (!res.ok) {throw new Error("فشل جلب بيانات العضو");}
+
+          const data  =  await res.json();
+        // const data = await fetchTeamMember(memberId);
         setMember(data);
-      } catch (err: any) {
-        setError(err.message || "Unknown error");
+      } catch {
+        setError( "Unknown error");
       } finally {
         setLoading(false);
       }
     };
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]); // يُعاد الجلب عند تغيير الـ id
+  }, [memberId]); // يُعاد الجلب عند تغيير الـ id
 
   if (error)
     return (
@@ -136,22 +153,22 @@ export default function TeamMemberPage({params,}: { params: { id: string };}) {
               </div>
 
               {/* Social */}
-              {member.socialLinks && (
-                  <div className="flex gap-4">
-                    {member.socialLinks.twitter && (
-                        <SocialIcon href={member.socialLinks.twitter} icon="twitter" />
-                    )}
-                    {member.socialLinks.linkedin && (
-                        <SocialIcon
-                            href={member.socialLinks.linkedin}
-                            icon="linkedin"
-                        />
-                    )}
-                    {member.socialLinks.github && (
-                        <SocialIcon href={member.socialLinks.github} icon="github" />
-                    )}
-                  </div>
-              )}
+              {/*{member.socialLinks && (*/}
+              {/*    <div className="flex gap-4">*/}
+              {/*      {member.socialLinks.twitter && (*/}
+              {/*          <SocialIcon href={member.socialLinks.twitter} icon="twitter" />*/}
+              {/*      )}*/}
+              {/*      {member.socialLinks.linkedin && (*/}
+              {/*          <SocialIcon*/}
+              {/*              href={member.socialLinks.linkedin}*/}
+              {/*              icon="linkedin"*/}
+              {/*          />*/}
+              {/*      )}*/}
+              {/*      {member.socialLinks.github && (*/}
+              {/*          <SocialIcon href={member.socialLinks.github} icon="github" />*/}
+              {/*      )}*/}
+              {/*    </div>*/}
+              {/*)}*/}
             </div>
           </AnimatedSection>
 

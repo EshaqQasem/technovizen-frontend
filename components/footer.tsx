@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
 import WhatsAppButton from "./whatsapp-button"
 
-export default function Footer({generalSettings}) {
+export default function Footer() {
   return (
     <footer className="bg-background border-t" id="contact">
       <div className="container py-12 md:py-16">

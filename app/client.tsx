@@ -1,16 +1,16 @@
 "use client"
 
 import type React from "react"
-import { Cairo } from "next/font/google"
+// import { Cairo } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { AnimatePresence, motion } from "framer-motion"
 import ServiceRequestWrapper from "@/components/service-request"
-import { LoadingProvider, useLoading } from "@/context/loading-context"
+import { LoadingProvider } from "@/context/loading-context"
 import PageLoading from "@/components/page-loading"
-import { useState, useEffect } from "react"
+// import { useState, useEffect } from "react"
 // const cairo = Cairo({ subsets: ["arabic"],display:"swap" })
 
 export default function ClientLayout({
@@ -55,7 +55,7 @@ export default function ClientLayout({
               </motion.div>
             </AnimatePresence>
           </main>
-          <Footer generalSettings={"ll"}/>
+          <Footer />
           <ServiceRequestWrapper />
           </LoadingProvider>
 
